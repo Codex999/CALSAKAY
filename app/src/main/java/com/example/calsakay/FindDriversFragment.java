@@ -192,6 +192,11 @@ public class FindDriversFragment extends Fragment{
             while(resultSet.next()){
                 previousTraceId = resultSet.getString("trace_id");
             }
+
+            if(previousTraceId == ""){
+                previousTraceId = "CLSKY0";
+            }
+
             traceIdGen = "CLSKY" + String.valueOf(Integer.parseInt(previousTraceId.substring(5)) + 1);
             return traceIdGen;
         }
@@ -224,7 +229,7 @@ public class FindDriversFragment extends Fragment{
                 }
 
             } catch (Exception e) {
-                error = e.toString();
+                e.printStackTrace();
             }
             return null;
         }

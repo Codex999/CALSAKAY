@@ -1,7 +1,9 @@
 package com.example.calsakay;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.luseen.spacenavigation.SpaceItem;
@@ -168,18 +170,23 @@ public class Dashboard extends AppCompatActivity implements DatabaseAccessCallba
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void QueryResponse(List<String[]> data) {
-        switch (data.get(0)[data.get(0).length - 1]){
-            case "DRIVER DETAILS":
-                fgPassengerAcceptedFragment.setDriverDetails(data);
-                break;
-            case "PASSENGER DETAILS":
-                fgPassengerAcceptedFragment.initializeMessageDetails(data);
-                break;
-            default:
-                this.fgFindDrivers.fillPickupPoint(data);
-                break;
+        if(data.size() != 0){
+            switch (data.get(0)[data.get(0).length - 1]){
+                case "DRIVER DETAILS":
+                    fgPassengerAcceptedFragment.setDriverDetails(data);
+                    break;
+                case "PASSENGER DETAILS":
+                    fgPassengerAcceptedFragment.initializeMessageDetails(data);
+                    break;
+                default:
+                    this.fgFindDrivers.fillPickupPoint(data);
+                    break;
+            }
+        } else {
+            fgPassengerAcceptedFragment.initializeMessageDetails(null);
         }
     }
 }

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -32,6 +34,8 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +45,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class PassengerAcceptedFragment extends Fragment {
     private int driverId, userId, rideTraceId, rideStatus;
-    private boolean droppedOff = false;
+    private boolean droppedOff = false, pickedUp = false;
     String[] rideStatusText = {
             "Your driver will be picking you up now!",
             "You have been picked up!",
@@ -98,7 +102,7 @@ public class PassengerAcceptedFragment extends Fragment {
                                 ", dropoff = " + rideTraceInfo.get(6) +
                                 ", status = 4"
                         );
-
+                pickedUp = true;
                 btPassengerPickedup.setVisibility(View.INVISIBLE);
             }
         });
@@ -131,6 +135,7 @@ public class PassengerAcceptedFragment extends Fragment {
                                         ", dropoff = " + rideTraceInfo.get(6) +
                                         ", status = 6"
                                 );
+                                sweetAlertDialog.cancel();
                                 currentActivity.droppedOff();
                             }
                         })
@@ -195,19 +200,22 @@ public class PassengerAcceptedFragment extends Fragment {
         return date;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void initializeMessageDetails(List<String[]> data){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-d HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
         try {
-            this.messageData = new Messages(Integer.parseInt(data.get(0)[3]),
-                    Integer.parseInt(data.get(0)[4]),
-                    convertToDateObject(String.valueOf(data.get(0)[8])),
-                    data.get(0)[6],
-                    Integer.parseInt(data.get(0)[5]),
-                    data.get(0)[1],
-                    data.get(0)[2],
-                    (data.get(0)[7].contentEquals("1")),
+            this.messageData = new Messages(driverId,
+                    userId,
+                    convertToDateObject(dtf.format(now)),
+                    "",
+                    0,
+                    this.driverDetails.get(0)[1] + " " + this.driverDetails.get(0)[2],
+                    "ingoing",
+                    true,
                     this.driverId,
                     this.userId,
-                    data.get(0)[0]);
+                    this.driverDetails.get(0)[22]);
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -248,7 +256,9 @@ public class PassengerAcceptedFragment extends Fragment {
             switch (rideStatus){
                 case 2:
                     tvRideStatus.setText(rideStatusText[0]);
-                    btPassengerPickedup.setVisibility(View.VISIBLE);
+                    if(pickedUp){
+                        btPassengerPickedup.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 3:
                     tvRideStatus.setText(rideStatusText[1]);
