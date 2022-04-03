@@ -42,10 +42,11 @@ public class FindDriversFragment extends Fragment{
     private List<String> personNumber = new ArrayList<>();
     private ArrayList<String> rideTraceInfo = new ArrayList<>();
     private CircularProgressButton btFindDriver;
-    private int btProgress, selectedPickupId, selectedDropoffId, userId, persons, listMaxPersons;
+    private int btProgress, selectedPickupId, selectedDropoffId, userId, persons, listMaxPersons, rideId;
     private Bundle savedState = null;
     private Context currentContext;
     private Dashboard currentActivity;
+    private boolean finding = false;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -106,10 +107,18 @@ public class FindDriversFragment extends Fragment{
         this.btFindDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FindDrivers().execute();
-                btFindDriver.setProgress(0);
-                btFindDriver.setIndeterminateProgressMode(true);
-                btFindDriver.setProgress(50);
+                if(finding){
+                    finding = false;
+                    DatabaseAccess dbCancelFinding = new DatabaseAccess(currentContext);
+                    dbCancelFinding.executeNonQuery("DELETE FROM `ride_trace` WHERE `ride_trace`.`id` = " + rideId);
+                    btFindDriver.setProgress(0);
+                } else {
+                    finding = true;
+                    new FindDrivers().execute();
+                    btFindDriver.setProgress(0);
+                    btFindDriver.setIndeterminateProgressMode(true);
+                    btFindDriver.setProgress(50);
+                }
             }
         });
     }
@@ -162,7 +171,7 @@ public class FindDriversFragment extends Fragment{
     }
 
         class FindDrivers extends AsyncTask<Void, Void, Void> {
-        int id, driverId;
+        int driverId;
         boolean passengerAccepted;
         String error, traceId;
         Statement statement;
@@ -219,13 +228,13 @@ public class FindDriversFragment extends Fragment{
 
                 ResultSet rs= statement.getGeneratedKeys();
                 if(rs.next()){
-                    id = rs.getInt(1);
+                    rideId = rs.getInt(1);
                 }
 
                 passengerAccepted = false;
 
-                while(passengerAccepted == false){
-                    checkForDrivers(id, traceId);
+                while(passengerAccepted == false && finding == true){
+                    checkForDrivers(rideId, traceId);
                 }
 
             } catch (Exception e) {
@@ -236,15 +245,18 @@ public class FindDriversFragment extends Fragment{
 
         @Override
         protected void onPostExecute(Void unused) {
-            rideTraceInfo.add(String.valueOf(id));
-            rideTraceInfo.add(traceId);
-            rideTraceInfo.add(String.valueOf(userId));
-            rideTraceInfo.add(String.valueOf(driverId));
-            rideTraceInfo.add(String.valueOf(persons));
-            rideTraceInfo.add(String.valueOf(selectedPickupId));
-            rideTraceInfo.add(String.valueOf(selectedDropoffId));
-            rideTraceInfo.add("2");
-            currentActivity.setAccepted(true, driverId, id, rideTraceInfo);
+            if(finding){
+                rideTraceInfo.add(String.valueOf(rideId));
+                rideTraceInfo.add(traceId);
+                rideTraceInfo.add(String.valueOf(userId));
+                rideTraceInfo.add(String.valueOf(driverId));
+                rideTraceInfo.add(String.valueOf(persons));
+                rideTraceInfo.add(String.valueOf(selectedPickupId));
+                rideTraceInfo.add(String.valueOf(selectedDropoffId));
+                rideTraceInfo.add("2");
+                currentActivity.setAccepted(true, driverId, rideId, rideTraceInfo);
+                finding = false;
+            }
             super.onPostExecute(unused);
         }
     }
