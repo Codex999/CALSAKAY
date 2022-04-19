@@ -58,7 +58,7 @@ public class FindDriversFragment extends Fragment{
         this.spDropoffPoint = view.findViewById(R.id.spDropoffPoint);
         this.spPersons = view.findViewById(R.id.spPersons);
         this.userId = Integer.parseInt(currentActivity.getUserData().get(0)[0]);
-        this.listMaxPersons = 20;
+        this.listMaxPersons = 4;
 
         for(int i = 1; i <= this.listMaxPersons; i++){this.personNumber.add(String.valueOf(i));}
         this.spPersons.setItem(personNumber);

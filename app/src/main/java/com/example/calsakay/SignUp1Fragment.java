@@ -71,7 +71,7 @@ public class SignUp1Fragment extends Fragment {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private Button btnNext, btnCancel;
-    private EditText et_firstName, et_lastName, et_phoneNum, et_email, et_address;
+    private EditText et_firstName, et_lastName, et_address;
     private TextView tv_date;
 
     private DatePickerDialog datePickerDialog;
@@ -92,8 +92,7 @@ public class SignUp1Fragment extends Fragment {
 
         et_firstName = (EditText) view.findViewById(R.id.et_fname);
         et_lastName = (EditText) view.findViewById(R.id.et_lname);
-        et_phoneNum = (EditText) view.findViewById(R.id.et_phonenum);
-        et_email = (EditText) view.findViewById(R.id.et_email);
+
         et_address = (EditText) view.findViewById(R.id.et_address);
 
         tv_date.setOnClickListener(new View.OnClickListener() {
@@ -108,20 +107,10 @@ public class SignUp1Fragment extends Fragment {
                 int radioId = radioGroup.getCheckedRadioButtonId();
                 radioButton = getActivity().findViewById(radioId);
 
-                String contact_num = et_phoneNum.getText().toString();
-
                 if (et_firstName.getText().toString().matches("")){
                     Toast.makeText(getActivity(), "Firstname is required", Toast.LENGTH_LONG).show();
                 }else if (et_lastName.getText().toString().matches("")){
                     Toast.makeText(getActivity(), "Lastname is required", Toast.LENGTH_LONG).show();
-                }else if (et_email.getText().toString().matches("")){
-                    Toast.makeText(getActivity(), "Email is required", Toast.LENGTH_LONG).show();
-                }else if(et_phoneNum.getText().toString().length() != 11){
-                    Toast.makeText(getActivity(), "Phone number must be exactly 11 digits.", Toast.LENGTH_SHORT).show();
-                }else if(!contact_num.startsWith("09")){
-                    Toast.makeText(getActivity(), "Contact number must start at '09'", Toast.LENGTH_SHORT).show();
-                }else if(et_phoneNum.getText().toString().matches("")){
-                    Toast.makeText(getActivity(), "Phone number is required", Toast.LENGTH_LONG).show();
                 }else if(et_address.getText().toString().matches("")){
                     Toast.makeText(getActivity(), "Address is required", Toast.LENGTH_SHORT).show();
                 }else{
@@ -129,11 +118,10 @@ public class SignUp1Fragment extends Fragment {
                     signup.setLname(et_lastName.getText().toString());
                     signup.setGender(radioButton.getText().toString());
                     signup.setBirthday(tv_date.getText().toString());
-                    signup.setEmail(et_email.getText().toString());
-                    signup.setContact_num(et_phoneNum.getText().toString());
                     signup.setAddress(et_address.getText().toString());
-                    SignUp2Fragment signUp2Fragment = new SignUp2Fragment();
-                    getFragmentManager().beginTransaction().replace(R.id.signupLayout, signUp2Fragment).commit();
+//                    SignUp2Fragment signUp2Fragment = new SignUp2Fragment();
+                    SignUpContactNumber signUpContactNumber = new SignUpContactNumber();
+                    getFragmentManager().beginTransaction().replace(R.id.signupLayout, signUpContactNumber).commit();
                 }
             }
         });

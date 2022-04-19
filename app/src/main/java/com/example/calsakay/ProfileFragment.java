@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Base64;
@@ -32,13 +34,16 @@ public class ProfileFragment extends Fragment {
     TextView tv_firstname, tv_lastname, tv_birthday, tv_gender, tv_mobile_number, tv_address, tv_medical_job, tv_company_name, tv_company_address, tv_company_number;
     ImageView id_front_image, id_back_image, iv_profile_image;
     List<String> list = new ArrayList<String>();
+    private Dashboard dashboard;
+    private int userId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        this.dashboard = (Dashboard) getActivity();
 
         tv_firstname = view.findViewById(R.id.tv_firstname);
         tv_lastname = view.findViewById(R.id.tv_lastname);
@@ -52,16 +57,25 @@ public class ProfileFragment extends Fragment {
         tv_company_number = view.findViewById(R.id.tv_compnum);
         id_front_image = view.findViewById(R.id.iv_profile_id_front);
         id_back_image = view.findViewById(R.id.iv_profile_id_back);
-        iv_profile_image = view.findViewById(R.id.iv_user_profile);
+
+
+//        tv_firstname.setText(dashboard.getUserData().get(0)[1]);
         new getInfo().execute();
 
+
         return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.dashboard = (Dashboard) getActivity();
+        this.userId = Integer.parseInt(dashboard.getUserData().get(0)[0]);
+        List<String[]> myList = dashboard.getUserData();
     }
 
     public class getInfo extends AsyncTask<Void, Void, Void>{
         String firstname, lastname, birthday, gender, mobile_number, address, medical_job, company_name, company_address, company_number;
         String front_image, back_image, user_image;
-
 
 
         @Override
@@ -70,7 +84,7 @@ public class ProfileFragment extends Fragment {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection("jdbc:mysql://163.44.242.10:3306/feqxsxpi_calsakay?characterEncoding=latin1","feqxsxpi_root", "UCC2021bsitKrazy");
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM calsakay_tbl_users WHERE id = 89");
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM calsakay_tbl_users WHERE id = " + userId);
 
                 while (resultSet.next()){
                     firstname = resultSet.getString("first_name");
@@ -83,9 +97,9 @@ public class ProfileFragment extends Fragment {
                     company_name = resultSet.getString("company_name");
                     company_address = resultSet.getNString("company_address");
                     company_number = resultSet.getString("company_number");
-                    front_image = resultSet.getString("front_image_name");
-                    back_image = resultSet.getString("back_image_name");
-                    user_image = resultSet.getString("user_image");
+//                    front_image = resultSet.getString("front_image_name");
+//                    back_image = resultSet.getString("back_image_name");
+//                    user_image = resultSet.getString("user_image");
                 }
 
 
@@ -107,17 +121,18 @@ public class ProfileFragment extends Fragment {
             tv_company_name.setText(company_name);
             tv_company_address.setText(company_address);
             tv_company_number.setText(company_number);
-
-            byte[] front_bytes = Base64.decode(front_image, Base64.DEFAULT);
-            Bitmap front_bitmap = BitmapFactory.decodeByteArray(front_bytes, 0, front_bytes.length);
-            byte[] back_bytes = Base64.decode(back_image, Base64.DEFAULT);
-            Bitmap back_bitmap = BitmapFactory.decodeByteArray(back_bytes, 0, back_bytes.length);
-            byte[] user_profile = Base64.decode(user_image, Base64.DEFAULT);
-            Bitmap user_bitmap = BitmapFactory.decodeByteArray(user_profile, 0, user_profile.length);
-
-            id_front_image.setImageBitmap(front_bitmap);
-            id_back_image.setImageBitmap(back_bitmap);
-            iv_profile_image.setImageBitmap(user_bitmap);
+            tv_medical_job.setText(medical_job);
+//
+//            byte[] front_bytes = Base64.decode(front_image, Base64.DEFAULT);
+//            Bitmap front_bitmap = BitmapFactory.decodeByteArray(front_bytes, 0, front_bytes.length);
+//            byte[] back_bytes = Base64.decode(back_image, Base64.DEFAULT);
+//            Bitmap back_bitmap = BitmapFactory.decodeByteArray(back_bytes, 0, back_bytes.length);
+//            byte[] user_profile = Base64.decode(user_image, Base64.DEFAULT);
+//            Bitmap user_bitmap = BitmapFactory.decodeByteArray(user_profile, 0, user_profile.length);
+//
+//            id_front_image.setImageBitmap(front_bitmap);
+//            id_back_image.setImageBitmap(back_bitmap);
+//            iv_profile_image.setImageBitmap(user_bitmap);
 
 //            Log.d("front image", front_image);
 

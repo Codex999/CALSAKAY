@@ -49,7 +49,8 @@ public class SplashScreen extends AppCompatActivity implements DatabaseAccessCal
             openActivity();
         } else {
             DatabaseAccess db = new DatabaseAccess(SplashScreen.this);
-            db.executeQuery("SELECT * FROM `calsakay_tbl_users` WHERE id = " + readFile());
+//            db.executeQuery("SELECT * FROM `calsakay_tbl_users` WHERE id = " + readFile());
+            db.executeQuery("SELECT id, first_name, last_name FROM calsakay_tbl_users WHERE id = " + readFile());
         }
     }
 

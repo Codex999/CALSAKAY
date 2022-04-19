@@ -66,7 +66,7 @@ public class PassengerAcceptedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.ivDriverImage = view.findViewById(R.id.ivDriverImage);
+//        this.ivDriverImage = view.findViewById(R.id.ivDriverImage);
         this.fmPassengerAcceptedMenu = view.findViewById(R.id.fmPassengerAcceptedMenu);
         this.fbPassengerAcceptedMenuItem1 = view.findViewById(R.id.fbPassengerAcceptedMenuItem1);
         this.fbPassengerAcceptedMenuItem2 = view.findViewById(R.id.fbPassengerAcceptedMenuItem2);

@@ -26,18 +26,23 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatabaseAccessCallback{
 
     private CircularProgressButton btLogin, btSignup;
     private EditText etUsername, etPassword;
+//    UserInfo userInfo;
+//    private String firstname;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        userInfo = new UserInfo();
 
         this.btLogin = findViewById(R.id.btLogin);
         this.btSignup = findViewById(R.id.btSignUp);
@@ -54,9 +59,12 @@ public class MainActivity extends AppCompatActivity implements DatabaseAccessCal
                 String inputUsername = etUsername.getText().toString();
                 String inputPassword = etPassword.getText().toString();
 
+
+
                 btLogin.setIndeterminateProgressMode(true);
                 btLogin.setProgress(50);
-
+                Intent i = new Intent(MainActivity.this, Dashboard.class);
+                startActivity(i);
                 dbAccess.executeQuery("SELECT id," +
                         "first_name," +
                         "last_name," +
@@ -68,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements DatabaseAccessCal
                         "company_name," +
                         "company_address," +
                         "company_number," +
-                        "front_image_name," +
-                        "back_image_name," +
-                        "orcr_back_img," +
+//                        "front_image_name," +
+//                        "back_image_name," +
+//                        "orcr_back_img," +
                         "email," +
                         "user_image," +
                         "username," +
@@ -90,8 +98,11 @@ public class MainActivity extends AppCompatActivity implements DatabaseAccessCal
         });
     }
 
+
+
     @Override
     public void QueryResponse(List<String[]> data) {
+        Log.d("content", Arrays.toString(data.toArray()));
         if(data.size() > 0){
             Intent mIntent = new Intent(this, Dashboard.class);
             writeConfig(data.get(0)[0]);

@@ -96,7 +96,7 @@ public class SignUp2Fragment extends Fragment {
                     signup.setMedical_job(et_medical_job.getText().toString());
                     signup.setCompany_name(et_comp_name.getText().toString());
                     signup.setCompany_address(et_comp_address.getText().toString());
-                    signup.setContact_num(et_comp_num.getText().toString());
+                    signup.setCompany_number(et_comp_num.getText().toString());
 
                     SignUp3Fragment signUp3Fragment = new SignUp3Fragment();
                     signUp3Fragment.setArguments(bundle);

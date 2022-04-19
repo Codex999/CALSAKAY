@@ -17,6 +17,8 @@ public class Signup extends AppCompatActivity {
     private String medical_job, company_name, company_address, company_number;
     private String profile_picture;
     private String username, password;
+    private String otp;
+    private String emailOTP;
 
 
     @Override
@@ -158,4 +160,12 @@ public class Signup extends AppCompatActivity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getOtp() { return otp; }
+
+    public void setOtp(String otp) { this.otp = otp; }
+
+    public String getEmailOTP() { return emailOTP; }
+
+    public void setEmailOTP(String emailOTP) { this.emailOTP = emailOTP; }
 }

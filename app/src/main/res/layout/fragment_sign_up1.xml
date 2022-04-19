@@ -104,33 +104,33 @@
 
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email Address"
-        android:textSize="14sp"/>
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Email Address"-->
+<!--        android:textSize="14sp"/>-->
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/black"/>
+<!--    <com.google.android.material.textfield.TextInputEditText-->
+<!--        android:id="@+id/et_email"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:textColor="@color/black"/>-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Phone Number"
-        android:textSize="14sp"/>
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Phone Number"-->
+<!--        android:textSize="14sp"/>-->
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_phonenum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:textColor="@color/black"
-        android:layout_marginBottom="5dp"/>
+<!--    <com.google.android.material.textfield.TextInputEditText-->
+<!--        android:id="@+id/et_phonenum"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:inputType="phone"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:layout_marginBottom="5dp"/>-->
 
     <TextView
         android:layout_width="match_parent"
