@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context=".EmailFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your working and present email address where we can contact you easily"/>
+
+    <EditText
+        android:id="@+id/et_sue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="youremail@gmail.com"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"/>
+
+    <Button
+        android:id="@+id/btn_sue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

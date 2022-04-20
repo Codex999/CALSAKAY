@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context=".SignUpContactNumber">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your working and present contact number where we can contact you easily"/>
+
+    <EditText
+        android:id="@+id/tv_sucn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="09123456789"
+        android:layout_marginTop="10dp"
+        android:inputType="phone"/>
+
+    <Button
+        android:id="@+id/btn_sucn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>
