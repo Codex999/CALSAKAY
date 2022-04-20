@@ -20,6 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -34,8 +38,9 @@ public class ProfileFragment extends Fragment {
     TextView tv_firstname, tv_lastname, tv_birthday, tv_gender, tv_mobile_number, tv_address, tv_medical_job, tv_company_name, tv_company_address, tv_company_number;
     ImageView id_front_image, id_back_image, iv_profile_image;
     List<String> list = new ArrayList<String>();
-    private Dashboard dashboard;
+    private Dashboard currentActivity;
     private int userId;
+    private Context currentContext;
 
 
     @Override
@@ -43,7 +48,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        this.dashboard = (Dashboard) getActivity();
+
 
         tv_firstname = view.findViewById(R.id.tv_firstname);
         tv_lastname = view.findViewById(R.id.tv_lastname);
@@ -58,8 +63,6 @@ public class ProfileFragment extends Fragment {
         id_front_image = view.findViewById(R.id.iv_profile_id_front);
         id_back_image = view.findViewById(R.id.iv_profile_id_back);
 
-
-//        tv_firstname.setText(dashboard.getUserData().get(0)[1]);
         new getInfo().execute();
 
 
@@ -68,15 +71,39 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.dashboard = (Dashboard) getActivity();
-        this.userId = Integer.parseInt(dashboard.getUserData().get(0)[0]);
-        List<String[]> myList = dashboard.getUserData();
+        this.currentActivity = (Dashboard) getActivity();
+//        this.userId = Integer.parseInt(currentActivity.getUserData().get(0)[0]);
     }
+
+
+
+
+    @Override
+    public void onAttach(@NonNull Context context){
+        super.onAttach(context);
+        this.currentContext = context;
+    }
+
+
 
     public class getInfo extends AsyncTask<Void, Void, Void>{
         String firstname, lastname, birthday, gender, mobile_number, address, medical_job, company_name, company_address, company_number;
         String front_image, back_image, user_image;
 
+        private String readFile() {
+            File fileEvents = new File(getActivity().getApplicationContext().getFilesDir()+"/text/config");
+            StringBuilder text = new StringBuilder();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(fileEvents));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                }
+                br.close();
+            } catch (IOException e) { }
+            String result = text.toString();
+            return result;
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -84,7 +111,8 @@ public class ProfileFragment extends Fragment {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection("jdbc:mysql://163.44.242.10:3306/feqxsxpi_calsakay?characterEncoding=latin1","feqxsxpi_root", "UCC2021bsitKrazy");
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM calsakay_tbl_users WHERE id = " + userId);
+                String sql = "SELECT * FROM calsakay_tbl_users WHERE id = " + readFile();
+                ResultSet resultSet = statement.executeQuery(sql);
 
                 while (resultSet.next()){
                     firstname = resultSet.getString("first_name");

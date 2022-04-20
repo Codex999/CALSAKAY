@@ -66,7 +66,7 @@ public class PassengerAcceptedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        this.ivDriverImage = view.findViewById(R.id.ivDriverImage);
+        this.ivDriverImage = view.findViewById(R.id.ivDriverImage);
         this.fmPassengerAcceptedMenu = view.findViewById(R.id.fmPassengerAcceptedMenu);
         this.fbPassengerAcceptedMenuItem1 = view.findViewById(R.id.fbPassengerAcceptedMenuItem1);
         this.fbPassengerAcceptedMenuItem2 = view.findViewById(R.id.fbPassengerAcceptedMenuItem2);
@@ -94,14 +94,14 @@ public class PassengerAcceptedFragment extends Fragment {
             public void onClick(View view) {
                 DatabaseAccess dbAccess = new DatabaseAccess(currentContext);
                 dbAccess.executeNonQuery("INSERT INTO ride_trace SET " +
-                                "trace_id = '" + rideTraceInfo.get(1) +
-                                "', passenger = " + rideTraceInfo.get(2) +
-                                ", driver = " + rideTraceInfo.get(3) +
-                                ", persons = " + rideTraceInfo.get(4) +
-                                ", pickup = " + rideTraceInfo.get(5) +
-                                ", dropoff = " + rideTraceInfo.get(6) +
-                                ", status = 4"
-                        );
+                        "trace_id = '" + rideTraceInfo.get(1) +
+                        "', passenger = " + rideTraceInfo.get(2) +
+                        ", driver = " + rideTraceInfo.get(3) +
+                        ", persons = " + rideTraceInfo.get(4) +
+                        ", pickup = " + rideTraceInfo.get(5) +
+                        ", dropoff = " + rideTraceInfo.get(6) +
+                        ", status = 4"
+                );
                 pickedUp = true;
                 btPassengerPickedup.setVisibility(View.INVISIBLE);
             }
@@ -230,7 +230,7 @@ public class PassengerAcceptedFragment extends Fragment {
         }
     }
 
-        class CheckStatus extends AsyncTask<Void, Void, Void> {
+    class CheckStatus extends AsyncTask<Void, Void, Void> {
         Statement statement;
 
         @Override
@@ -256,7 +256,7 @@ public class PassengerAcceptedFragment extends Fragment {
             switch (rideStatus){
                 case 2:
                     tvRideStatus.setText(rideStatusText[0]);
-                    if(pickedUp){
+                    if(pickedUp == false){
                         btPassengerPickedup.setVisibility(View.VISIBLE);
                     }
                     break;
