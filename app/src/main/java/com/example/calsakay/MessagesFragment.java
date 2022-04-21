@@ -32,6 +32,15 @@ public class MessagesFragment extends Fragment{
     boolean noMessages = false;
     Dashboard currentAct;
 
+    public final Handler handler = new Handler();
+    private Runnable refreshPassengerList = new Runnable() {
+        @Override
+        public void run() {
+            handler.postDelayed(this, 3000);
+            new AccessDB().execute();
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,17 +59,7 @@ public class MessagesFragment extends Fragment{
         this.rvMessages = view.findViewById(R.id.rvMessagesContainer);
         // WHERE (`reciever` = 62 AND `sender` = 80) OR (`reciever` = 80 AND `sender` = 62);
         // SELECT DISTINCT(`reciever`) FROM `messages` WHERE `reciever` = 62 OR `sender` = 62;  SELECT DISTINCT(`sender`) FROM `messages` WHERE `reciever` = 62 OR `sender` = 62;
-
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(this, 5000);
-                new AccessDB().execute();
-            }
-        }, 3000);
-
+        handler.postDelayed(refreshPassengerList, 3000);
     }
 
 

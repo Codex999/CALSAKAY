@@ -38,9 +38,6 @@ public class ProfileFragment extends Fragment {
     TextView tv_firstname, tv_lastname, tv_birthday, tv_gender, tv_mobile_number, tv_address, tv_medical_job, tv_company_name, tv_company_address, tv_company_number;
     ImageView id_front_image, id_back_image, iv_profile_image;
     List<String> list = new ArrayList<String>();
-    private Dashboard currentActivity;
-    private int userId;
-    private Context currentContext;
 
 
     @Override
@@ -63,7 +60,7 @@ public class ProfileFragment extends Fragment {
         id_front_image = view.findViewById(R.id.iv_profile_id_front);
         id_back_image = view.findViewById(R.id.iv_profile_id_back);
 
-        new getInfo().execute();
+
 
 
         return view;
@@ -71,17 +68,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.currentActivity = (Dashboard) getActivity();
-//        this.userId = Integer.parseInt(currentActivity.getUserData().get(0)[0]);
-    }
-
-
-
-
-    @Override
-    public void onAttach(@NonNull Context context){
-        super.onAttach(context);
-        this.currentContext = context;
+        new getInfo().execute();
     }
 
 

@@ -172,13 +172,13 @@ public class PassengerAcceptedFragment extends Fragment {
                 driverPlateNo = this.driverDetails.get(0)[18],
                 driverEmail = this.driverDetails.get(0)[21];
 
-        InputStream stream = new ByteArrayInputStream(Base64.decode(driverImageValue.getBytes(), Base64.DEFAULT));
-        Bitmap chatImageBitmap = BitmapFactory.decodeStream(stream);
-        this.tvRideStatus.setText(rideStatusText[0]);
-        this.ivDriverImage.setImageBitmap(chatImageBitmap);
+//        InputStream stream = new ByteArrayInputStream(Base64.decode(driverImageValue.getBytes(), Base64.DEFAULT));
+//        Bitmap chatImageBitmap = BitmapFactory.decodeStream(stream);
+//        this.tvRideStatus.setText(rideStatusText[0]);
+//        this.ivDriverImage.setImageBitmap(chatImageBitmap);
         this.tvDriverMobileNumber.setText(this.tvDriverMobileNumber.getText() + driverMobileNo);
         this.tvDriverVehicleType.setText(this.tvDriverVehicleType.getText() + driverVehicle);
-        this.tvDriverPlateNumber.setText(this.tvDriverPlateNumber.getText() + driverPlateNo);
+//        this.tvDriverPlateNumber.setText(this.tvDriverPlateNumber.getText() + driverPlateNo);
         this.tvDriveEmail.setText(this.tvDriveEmail.getText() + driverEmail);
         this.tvDriverName.setText(this.tvDriverName.getText() + driverNameValue);
 

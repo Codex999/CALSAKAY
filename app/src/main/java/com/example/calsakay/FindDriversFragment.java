@@ -245,6 +245,7 @@ public class FindDriversFragment extends Fragment{
 
         @Override
         protected void onPostExecute(Void unused) {
+            btFindDriver.setProgress(0);
             if(finding){
                 rideTraceInfo.add(String.valueOf(rideId));
                 rideTraceInfo.add(traceId);
