@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FindDriversFragment extends Fragment{
 
@@ -118,6 +121,34 @@ public class FindDriversFragment extends Fragment{
                     btFindDriver.setProgress(0);
                     btFindDriver.setIndeterminateProgressMode(true);
                     btFindDriver.setProgress(50);
+
+                    new CountDownTimer(300000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        public void onFinish() {
+                            finding = false;
+                            DatabaseAccess dbCancelFinding = new DatabaseAccess(currentContext);
+                            dbCancelFinding.executeNonQuery("DELETE FROM `ride_trace` WHERE `ride_trace`.`id` = " + rideId);
+                            btFindDriver.setProgress(0);
+
+                            new SweetAlertDialog(currentContext, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("No Available Drivers")
+                                    .setContentText("Minutes have passed but no drivers accepted your request. Try again next time.")
+                                    .setConfirmText("Ok")
+                                    .showCancelButton(false)
+                                    .setCustomImage(getResources().getDrawable(R.drawable.ic_no_drivers))
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.cancel();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }.start();
                 }
             }
         });
